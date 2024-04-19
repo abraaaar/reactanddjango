@@ -25,6 +25,9 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework_simplejwt.token_blacklist",
     "curium_api.user",
+    "curium_api.organization",
+    "curium_api.membership",
+    "curium_api.volume",
     "rest_framework",
     "corsheaders",
 ]
@@ -58,14 +61,13 @@ WSGI_APPLICATION = "curium_api.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "VIP",
+        "NAME": "Cur",
         "USER": "abrar",
         "PASSWORD": "adminn",
         "HOST": "localhost",
         "PORT": "5432",
     }
 }
-
 AUTH_USER_MODEL = "user.User"
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -82,16 +84,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 LANGUAGE_CODE = "en-us"
-
 TIME_ZONE = "UTC"
-
 USE_I18N = True
-
 USE_TZ = True
-
 STATIC_URL = "static/"
-
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOWS_CREDENTIALS = True
