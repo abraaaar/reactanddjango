@@ -3,14 +3,12 @@ import uuid
 from curium_api.user.models import User
 from curium_api.organization.models import Organization
 
-
 class Status(models.TextChoices):
     UPLOADED = "UPLOADED", "Uploaded"
     QUEUED = "QUEUED", "Queued"
     PROCESSING = "PROCESSING", "Processing"
     INTERMEDIATE_STATE = "INTERMEDIATE_STATE", "Intermediate State"
     COMPLETED = "COMPLETED", "Completed"
-
 
 class VolumeRecord(models.Model):
     record_id = models.UUIDField(

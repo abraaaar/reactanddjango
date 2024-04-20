@@ -5,19 +5,16 @@ from rest_framework.permissions import IsAuthenticated
 from .serializers import MembershipSerializer, CreateMembershipSerializer
 from .models import Membership
 
-
 @api_view(["POST", "GET"])
 @permission_classes([IsAuthenticated])
 def membership_view(request):
-
     if request.method == "POST":
         serializer = CreateMembershipSerializer(data=request.data)
         data = {}
         if serializer.is_valid():
             membership = serializer.save()
-
-            data["org_id"] = membership.org
-            data["user_id"] = membership.user
+            data["org_id"] = str(membership.org.org_id)
+            data["user_id"] = str(membership.user.id)
             data["role"] = membership.role
             return Response(data, status=status.HTTP_201_CREATED)
         else:
@@ -25,7 +22,6 @@ def membership_view(request):
             return Response(data, status=status.HTTP_400_BAD_REQUEST)
 
     if request.method == "GET":
-
-        membership = Membership.objects.filter(org_owner_id=request.user.id)
+        membership = Membership.objects.filter(user=request.user)
         serializer = MembershipSerializer(membership, many=True)
         return Response(serializer.data)

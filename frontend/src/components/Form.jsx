@@ -26,7 +26,7 @@ function Form({ route, method }) {
             let res;
             if (method === "login") {
                 // For login, post to the token endpoint
-                res = await api.post("/api/auth/token", { username, password });
+                res = await api.post("/api/user/auth/token", { username, password });
                 localStorage.setItem(ACCESS_TOKEN, res.data.access);
                 localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
             } else {
@@ -43,13 +43,13 @@ function Form({ route, method }) {
                 const role = userInfo.data.role;
 
                 if (role === "Normal User") {
-                    navigate("/normaluser");
+                    navigate("/dashboard"); 
                 } else if (role === "Surgeon") {
-                    navigate("/surgeon");
+                    navigate("/dashboard");
                 } else if (role === "Teleradiologist") {
-                    navigate("/teleradiologist");
+                    navigate("/dashboard");
                 } else if (role === "Radiologist") {
-                    navigate("/radiologist");
+                    navigate("/dashboard");
                 } else {
                     // Handle other roles or unexpected scenarios
                     navigate("/");

@@ -61,7 +61,7 @@ WSGI_APPLICATION = "curium_api.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "Cur",
+        "NAME": "Curium",
         "USER": "abrar",
         "PASSWORD": "adminn",
         "HOST": "localhost",

@@ -1,15 +1,13 @@
 from django.db import models
 import uuid
-import uuid
 from curium_api.user.models import User
 from curium_api.organization.models import Organization
 
-
 class Role(models.TextChoices):
-    ADMIN = "ADMIN", "Admin"
-    SURGEON = "SURGEON", "Surgeon"
+    NORMAL_USER = "NORMAL_USER", "Normal User"
+    RADIOLOGIST = "RADIOLOGIST", "Radiologist"
     TELERADIOLOGIST = "TELERADIOLOGIST", "Teleradiologist"
-
+    SURGEON = "SURGEON", "Surgeon"
 
 class Membership(models.Model):
     membership_id = models.UUIDField(

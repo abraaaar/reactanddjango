@@ -1,10 +1,7 @@
 from rest_framework import serializers
-
-from curium_api.user.models import User
-
+from .models import User
 
 class RegistrationSerializer(serializers.ModelSerializer):
-
     password2 = serializers.CharField(style={"input_type": "password"}, write_only=True)
 
     class Meta:
@@ -15,7 +12,6 @@ class RegistrationSerializer(serializers.ModelSerializer):
         }
 
     def save(self):
-
         user = User(
             fname=self.validated_data["fname"],
             lname=self.validated_data["lname"],
@@ -30,7 +26,6 @@ class RegistrationSerializer(serializers.ModelSerializer):
         user.set_password(password)
         user.save()
         return user
-
 
 class ProfileSerializer(serializers.ModelSerializer):
 

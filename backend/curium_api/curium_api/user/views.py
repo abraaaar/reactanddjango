@@ -2,8 +2,8 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated
-from curium_api.user.serializers import RegistrationSerializer, ProfileSerializer
-
+from .serializers import RegistrationSerializer, ProfileSerializer
+from curium_api.membership.models import Membership
 
 @api_view(["POST"])
 @permission_classes([AllowAny])
@@ -28,4 +28,8 @@ def registration_view(request):
 def get_profile(request):
     user = request.user
     serializer = ProfileSerializer(user, many=False)
-    return Response(serializer.data)
+    membership = Membership.objects.get(user=user)
+    return Response({
+        **serializer.data,
+        "role": membership.role
+    })
