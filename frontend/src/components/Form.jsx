@@ -31,7 +31,7 @@ function Form({ route, method }) {
                 // For register, post to the register endpoint
                 res = await api.post(route, data);
                 // Call the membership API to set the role and org id
-                const membershipData = { role, org: 'predefined-org-id' }; // replace 'predefined-org-id' with your org id
+                const membershipData = { role, org: '459957f1-7910-4b17-9978-6a63df9329e7' }; // We have put the org id of our predefined org
                 await api.post('/api/membership', membershipData);
                 // Redirect to login page after successful registration
                 navigate("/login");

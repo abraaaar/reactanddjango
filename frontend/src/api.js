@@ -9,9 +9,12 @@ const api = axios.create({
 
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem(ACCESS_TOKEN);
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+    // Only add the Authorization header to requests to protected endpoints
+    if (!config.url.endsWith('/api/user/register/')) {
+      const token = localStorage.getItem(ACCESS_TOKEN);
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
     }
     return config;
   },
