@@ -1,17 +1,19 @@
 from rest_framework import serializers
-from .models import Membership
+from .models import Organization
 from curium_api.user.models import User
-from curium_api.organization.models import Organization
+from curium_api.membership.models import Membership
+
 
 class CreateMembershipSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Membership
-        fields = ["user", "role"]
+        fields = ["user", "org", "role"]
 
     def save(self):
+
         user = User.objects.get(id=self.validated_data["user"].id)
-        org = Organization.objects.get(org_name="Org1")
+        org = Organization.objects.get(org_id=self.validated_data["org"].org_id)
         membership = Membership(
             user=user,
             org=org,
@@ -20,7 +22,23 @@ class CreateMembershipSerializer(serializers.ModelSerializer):
         membership.save()
         return membership
 
+
 class MembershipSerializer(serializers.ModelSerializer):
     class Meta:
         model = Membership
         fields = "__all__"
+
+
+class UpdateMembershipSerialization(serializers.ModelSerializer):
+
+    class Meta:
+        model = Membership
+
+        fields = "__all__"
+
+    def update(self, instance, validated_data):
+
+        instance.org = validated_data.get("org", instance.org)
+        instance.role = validated_data.get("role", instance.role)
+        instance.save()
+        return instance

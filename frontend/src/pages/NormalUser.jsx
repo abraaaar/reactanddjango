@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import api from "../api";
 import { useNavigate } from "react-router-dom";
 
-function NormalUser() {
+function NormalUser({ handleLogout }) {
     const [selectedFile, setSelectedFile] = useState();
     const [isFilePicked, setIsFilePicked] = useState(false);
+    const [uploadedImage, setUploadedImage] = useState(null);
     const navigate = useNavigate();
 
     const changeHandler = (event) => {
@@ -20,15 +21,10 @@ function NormalUser() {
         try {
             const res = await api.post('/api/volume', formData);
             console.log(res);
+            setUploadedImage(URL.createObjectURL(selectedFile));
         } catch (error) {
             console.error(error);
         }
-    };
-
-    const handleLogout = () => {
-        localStorage.removeItem('ACCESS_TOKEN');
-        localStorage.removeItem('REFRESH_TOKEN');
-        navigate('/login');
     };
 
     return (
@@ -49,6 +45,7 @@ function NormalUser() {
                 <p>Select a file to show details</p>
             )}
             <button onClick={handleSubmission}>Submit</button>
+            {uploadedImage && <img src={uploadedImage} alt="Uploaded" />}
             <button onClick={handleLogout}>Logout</button>
         </div>
     );

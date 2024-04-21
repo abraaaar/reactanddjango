@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import api from "../api";
 import { useNavigate } from "react-router-dom";
-import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants";
 import "../styles/Form.css";
 import LoadingIndicator from "./LoadingIndicator";
 
@@ -20,28 +19,28 @@ function Form({ route, method }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-
         try {
             const data = { username, password, role, fname, lname, email_id, password2 };
             let res;
             if (method === "login") {
                 // For login, post to the token endpoint
                 res = await api.post("/api/user/auth/token", { username, password });
-                localStorage.setItem(ACCESS_TOKEN, res.data.access);
-                localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
+                localStorage.setItem('ACCESS_TOKEN', res.data.access);
+                localStorage.setItem('REFRESH_TOKEN', res.data.refresh);
             } else {
                 // For register, post to the register endpoint
                 res = await api.post(route, data);
+                // Call the membership API to set the role and org id
+                const membershipData = { role, org: 'predefined-org-id' }; // replace 'predefined-org-id' with your org id
+                await api.post('/api/membership', membershipData);
                 // Redirect to login page after successful registration
                 navigate("/login");
             }
-
             // If the response is successful, handle redirection based on role
             if (res.status === 200 && method === "login") {
                 // Get user info after login to determine the role
                 const userInfo = await api.get("/api/user/profile/");
                 const role = userInfo.data.role;
-
                 if (role === "Normal User") {
                     navigate("/dashboard"); 
                 } else if (role === "Surgeon") {

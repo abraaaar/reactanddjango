@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
             name="VolumeRecord",
             fields=[
                 (
-                    "record_id",
+                    "volume_id",
                     models.UUIDField(
                         auto_created=True,
                         default=uuid.uuid4,

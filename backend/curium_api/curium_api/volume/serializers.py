@@ -4,10 +4,14 @@ from curium_api.user.models import User
 from curium_api.organization.models import Organization
 from .models import Status
 
+
 class CreateVolumeSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = VolumeRecord
+
         fields = [
+            "org",
             "patient_id",
             "study_id",
             "volume_meta",
@@ -17,7 +21,7 @@ class CreateVolumeSerializer(serializers.ModelSerializer):
 
     def save(self):
         user = User.objects.get(id=self.context["request"].user.id)
-        org = Organization.objects.get(org_name="Org1")
+        org = Organization.objects.get(org_id=self.validated_data["org"].org_id)
         status = Status.UPLOADED
         patient_id = self.validated_data["patient_id"]
         study_id = self.validated_data["study_id"]
@@ -42,6 +46,7 @@ class UpdateVolumeSerialization(serializers.ModelSerializer):
 
     class Meta:
         model = VolumeRecord
+
         fields = "__all__"
 
     def update(self, instance, validated_data):
@@ -55,6 +60,7 @@ class UpdateVolumeSerialization(serializers.ModelSerializer):
         instance.isAutomated = validated_data.get("isAutomated", instance.isAutomated)
         instance.save()
         return instance
+
 
 class VolumeSerializer(serializers.ModelSerializer):
     class Meta:

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import api from "../api";
 import { useNavigate } from "react-router-dom";
 
-function Teleradiologist() {
+function Teleradiologist({ handleLogout }) {
     const [data, setData] = useState([]);
     const navigate = useNavigate();
 
@@ -14,12 +14,6 @@ function Teleradiologist() {
 
         fetchData();
     }, []);
-
-    const handleLogout = () => {
-        localStorage.removeItem('ACCESS_TOKEN');
-        localStorage.removeItem('REFRESH_TOKEN');
-        navigate('/login');
-    };
 
     const handleMarkAsComplete = async (record_id) => {
         try {

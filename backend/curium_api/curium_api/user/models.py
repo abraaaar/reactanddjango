@@ -2,22 +2,20 @@ from django.db import models
 import uuid
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
+
 class MyAccountManager(BaseUserManager):
     def create_user(self, email_id, fname, lname, password=None):
         if not email_id:
             raise ValueError("Users must have an email address")
 
         user = self.model(
-            email_id=self.normalize_email(email_id),
-            fname=fname,
-            lname=lname,
-            username=email_id,  # Set the username to the email_id
-            
+            email_id=self.normalize_email(email_id), fname=fname, lname=lname
         )
 
         user.set_password(password)
         user.save(using=self._db)
         return user
+
 
 class User(AbstractBaseUser):
     id = models.UUIDField(
